@@ -1,0 +1,17 @@
+drop table renta;
+drop table inventario;
+drop table categoPeli;
+drop table categoria;
+drop table actuacion;
+drop table actor;
+drop table doblaje;
+drop table lenguaje;
+drop table pelicula;
+drop table clasificacion;
+drop table empleado;
+drop table cliente;
+drop table tienda;
+drop table direccion;
+drop table ciudad; 
+drop table pais;
+drop table temporal;
