@@ -1,0 +1,32 @@
+
+create table prueba (
+	idp serial, 
+	echaReg timestamp
+);
+
+insert into prueba (echaReg) values ('14/02/2006 11:55:01');
+select to_char(echaReg, 'DD/MM/YYYY') from prueba;
+
+drop table prueba;
+
+select * from pais order by nombrePais asc;
+
+
+
+-----------------------------------------------------------Consulta 6----------------------------------------------------------------------------------------------
+select 
+count(c.idCLiente),
+(count(c.idCLiente)*100) /(select count(ciu.idCiudad)
+						   from direccion as di 
+						   inner join ciudad as ciu on ciu.idCiudad = di.fk_idCiudad
+						   inner join pais as pa on pa.idPais = di.fk_idPais
+						   where pa.nombrepais = p.nombrePais
+						   group by pa.idPais) as "%"
+from cliente as c
+inner join direccion as d on d.idDireccion = c.fk_idDireccion
+inner join ciudad as ci on ci.idCiudad = d.fk_idCiudad
+inner join pais as p on p.idPais = d.fk_idPais
+group by ci.idCiudad, p.nombrePais;
+
+
+

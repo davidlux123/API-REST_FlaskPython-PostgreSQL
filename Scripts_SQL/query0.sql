@@ -15,3 +15,5 @@ drop table direccion;
 drop table ciudad; 
 drop table pais;
 drop table temporal;
+------------------------------------truncates-------------------------------------------------------------------------------------------------------
+truncate table temporal;

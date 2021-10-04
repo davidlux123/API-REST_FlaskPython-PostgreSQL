@@ -23,7 +23,7 @@ inner join pelicula as p on p.idPeli = i.fk_idPeli
 where p.nombrePelicula = 'SUGAR WONKA';
 
 -----------------------------------------------------------Consulta 2----------------------------------------------------------------------------------------------
-select c.nombreCliente, c.apellidoCliente
+select c.nombreCliente, c.apellidoCliente, sum(r.montoPago)
 from renta as r
 inner join cliente as c on c.idCliente = r.fk_idCliente
 group by c.nombreCliente, c.apellidoCliente
@@ -40,14 +40,12 @@ from actuacion as a
 inner join Actor as ac on ac.idActor = a.fk_idActor
 inner join pelicula as p on p.idPeli = a.fk_idPeli
 where p.descPelicula like '%Shark%' and p.descPelicula like '%Crocodile%'
-order by ac.apellidoActor asc
+order by ac.apellidoActor asc;
 
 -----------------------------------------------------------Consulta 5----------------------------------------------------------------------------------------------
 SELECT MAX(alias.nombreCliente), alias.nombrePais, MAX(RENTAS) as rentas, MAX(PORCENTAJE) as "%" 
 FROM ( 
-	select 
-	c.nombreCliente, 
-	p.nombrePais, 
+	select c.nombreCliente, p.nombrePais, 
 	count(r.fk_idCliente) as RENTAS, 
 	(count(r.fk_idCliente)*100)/(select count(re.fk_idCliente)
 								 from renta as re
@@ -67,7 +65,7 @@ FROM (
 GROUP BY alias.nombrePais;
 
 -----------------------------------------------------------Consulta 6----------------------------------------------------------------------------------------------
-select 
+select p.nombrePais, ci.nombreCiudad,
 count(c.idCLiente),
 (count(c.idCLiente)*100)/ (select count(ciu.idCiudad)
 						   from direccion as di 
@@ -82,7 +80,8 @@ inner join pais as p on p.idPais = d.fk_idPais
 group by ci.idCiudad, p.nombrePais;
 
 -----------------------------------------------------------Consulta 7----------------------------------------------------------------------------------------------
-select p.nombrePais, 
+select p.nombrePais, ci.nombreCiudad, 
+count(r.noRenta),
 count(r.noRenta) / (select count (ciu.nombreCiudad)
 					from direccion as di 
 					inner join ciudad as ciu on ciu.idCiudad = di.fk_idCiudad
@@ -94,11 +93,10 @@ inner join cliente as c on c.idCliente = r.fk_idCliente
 inner join direccion as d on d.idDireccion = c.fk_idDireccion
 inner join ciudad as ci on ci.idCiudad = d.fk_idCiudad
 inner join pais as p on p.idPais = d.fk_idPais
-group by p.nombrePais;
+group by p.nombrePais, ci.nombreCiudad;
 
 -----------------------------------------------------------Consulta 8----------------------------------------------------------------------------------------------
-select 
-p.nombrePais, 
+select p.nombrePais, 
 count(r.fk_idCliente) as RENTAS, 
 (count(r.fk_idCliente)*100)/(select count(re.fk_idCliente)
 							 from renta as re
